@@ -8,7 +8,8 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
- 
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
  
@@ -73,6 +74,27 @@ class AuthController extends Controller
             $response['message'] = $e->getMessage();
         }
  
+        return response()->json($response);
+    }
+
+    public function logout(){
+        $response = [
+            'success' => false,
+            'message' => '',
+            'data' => []
+        ];
+
+        try{
+            $user = Auth::logout();
+            
+            $user->tokens()->delete();
+
+            $response['success'] = true;
+            $response['message'] = "Logout successfuly";
+
+        } catch(Exception $e){
+            $response['message'] = $e->getMessage();
+        }
         return response()->json($response);
     }
  

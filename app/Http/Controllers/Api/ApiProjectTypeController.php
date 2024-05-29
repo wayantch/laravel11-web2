@@ -148,6 +148,26 @@ class ApiProjectTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = $this->default_response;
+       
+        $project_type = ProjectType::find($id);
+       
+        try{
+ 
+            if(!$project_type){
+                throw new Exception('Project type not found');
+            }
+
+            $project_type->delete();
+            
+            $response['success'] = true;
+            $response['message'] = "Berhasil cuy";
+            $response['data'] = [
+                '$project_type'=>$project_type
+            ];
+        }catch(Exception $e){
+            $response['message'] = $e->getMessage();
+        }
+        return response()->json($response);
     }
 }

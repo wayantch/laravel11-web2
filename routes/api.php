@@ -1,5 +1,6 @@
 <?php
- 
+
+use App\Http\Controllers\Api\ApiProjectController;
 use App\Http\Controllers\Api\ApiProjectTypeController;
 use App\Http\Controllers\api\AuthController;
 use Illuminate\Http\Request;
@@ -15,8 +16,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/project-types', [ApiProjectTypeController::class, 'store']);
     Route::get('/project-types/{ProjectType}', [ApiProjectTypeController::class, 'show']);
     Route::patch('/project-types/{ProjectType}', [ApiProjectTypeController::class, 'update']);
+    Route::delete('/project-types/{id}', [ApiProjectTypeController::class, 'destroy']);
+
+    Route::post('/projects', [ApiProjectController::class, 'store']);
+
+    //logout
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
- 
+
  
 //posts
 Route::apiResource('/posts', App\Http\Controllers\Api\PostController::class);
