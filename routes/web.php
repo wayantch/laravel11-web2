@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Project1Controller;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectTypeController;
 use Illuminate\Support\Facades\Route;
@@ -35,9 +34,9 @@ Route::get('/profil', function () { return view('portofolio'); });
 
 // Tugas Nomor 3
 
-Route::get('/project', [Project1Controller::class, 'hom']);
-Route::get('/nama', [Project1Controller::class, 'nama']);
-Route::get('/prodi', [Project1Controller::class, 'prodi']);
+// Route::get('/project', [Project1Controller::class, 'hom']);
+// Route::get('/nama', [Project1Controller::class, 'nama']);
+// Route::get('/prodi', [Project1Controller::class, 'prodi']);
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 Route::get('login', [LoginController::class, 'login'])->name('login')->middleware('guest');
