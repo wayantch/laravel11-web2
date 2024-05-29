@@ -2,47 +2,56 @@
 
 @push('style')
     <style>
-        p {
-            color: red;
+        .notification {
+            padding: 10px;
+            margin-top: 10px;
         }
     </style>
 @endpush
 
 @section('content')
-    <p>project-types Index</p>
-    <a class="btn btn-primary" href="{{route('admin.project-types.create')}}">Add</a>
-    @if (!empty(session('error')))
-        <p class="text-danger">{{session('error')}}</p>
+    <div class="container mt-4">
+        <h1>Project Types Index</h1>
+        <a class="btn btn-primary mb-3" href="{{ route('admin.project-types.create') }}">Add New Project Type</a>
+        
+        @if (session('error'))
+            <div class="alert alert-danger notification">
+                {{ session('error') }}
+            </div>
+        @elseif (session('success'))
+            <div class="alert alert-success notification">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @elseif(!empty(session('success')))
-        <p class="text-success">{{session('success')}}</p>
-    @endif
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($project_types as $pt)
-                <tr>
-                    <td>{{ $loop->iteration  }}</td>
-                    <td>{{ $pt->type  }}</td>
-                    <td>{{ $pt->description  }}</td>
-                    <td>
-                        <a href="{{route('admin.project-types.edit', $pt->id) }}" class="badge bg-primary text-decoration-none">Edit</a>
-                        <form method="POST" action="{{ route('admin.project-types.destroy', ['id' => $pt->id]) }}">
-                            @csrf
-                            @method('delete')
-                            <button class="badge bg-danger border-0">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($project_types as $pt)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $pt->type }}</td>
+                            <td>{{ $pt->description }}</td>
+                            <td>
+                                <a href="{{ route('admin.project-types.edit', $pt->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <form method="POST" action="{{ route('admin.project-types.destroy', $pt->id) }}" style="display:inline-block;">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
